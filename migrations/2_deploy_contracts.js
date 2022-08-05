@@ -1,5 +1,5 @@
-const Migrations = artifacts.require("AlexCoin.sol");
+const AlexCoin = artifacts.require("AlexCoin.sol");
 
 module.exports = function (deployer) {
-  deployer.deploy(Migrations);
+  deployer.deploy(AlexCoin);
 };
