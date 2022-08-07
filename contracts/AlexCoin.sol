@@ -42,6 +42,7 @@ contract AlexCoin {
         balanceOf[_to] += _value;
 
         emit Transfer(_from, _to, _value);
+        emit Approval(_from, msg.sender, allowance[_from][msg.sender]);
         return true;
     }
 
@@ -49,6 +50,21 @@ contract AlexCoin {
         require(_spender != address(0));
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
+        return true;
+    }
+
+    function increaseAllowance(address _spender, uint256 _addedValue) public returns (bool success) {
+        require(_spender != address(0));
+        allowance[msg.sender][_spender] += _addedValue;
+        emit Approval(msg.sender, _spender, allowance[msg.sender][_spender]);
+        return true;
+    }
+
+    function decreaseAllowance(address _spender, uint256 _subtractedValue) public returns (bool success) {
+        require(_spender != address(0));
+        require(allowance[msg.sender][_spender] >= _subtractedValue);
+        allowance[msg.sender][_spender] -= _subtractedValue;
+        emit Approval(msg.sender, _spender, allowance[msg.sender][_spender]);
         return true;
     }
 

@@ -1,4 +1,5 @@
 let AlexCoin = artifacts.require("AlexCoin.sol");
+let zeroAddress = "0x0000000000000000000000000000000000000000";
 
 contract("AlexCoin", (accounts) => {
 
@@ -50,13 +51,13 @@ contract("AlexCoin", (accounts) => {
         // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 86000000000-3, "Coins where not Transfered if sender does not have enough 1");
         // assert.equal((await coinInstance.balanceOf(accounts[2])).toNumber(), 0, "Coins where not Transfered if sender does not have enough 2");
         try {
-            assert.fail(await coinInstance.transfer.call("0x0000000000000000000000000000000000000000", 1));
+            assert.fail(await coinInstance.transfer.call(zeroAddress, 1));
         } catch(error) {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 2");
         }
         // assert.equal(bool3, false, "False boolean is returned on unsuccessful transfer, when sending to zero address");
         // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 86000000000-3, "Coins where not Transfered if sending to zero address 1");
-        // assert.equal((await coinInstance.balanceOf("0x0000000000000000000000000000000000000000")).toNumber(), 0, "Coins where not Transfered if sending to zero address 2");
+        // assert.equal((await coinInstance.balanceOf(zeroAddress)).toNumber(), 0, "Coins where not Transfered if sending to zero address 2");
     
         
 
@@ -75,6 +76,56 @@ contract("AlexCoin", (accounts) => {
 
         let allowance = await coinInstance.allowance(accounts[0], accounts[1]);
         assert.equal(allowance, 100, "stores the allowance correctly");
+
+        // reset
+        await coinInstance.approve(accounts[1], 0, {from: accounts[0]});
+        try {
+            assert.fail(await coinInstance.approve.call(zeroAddress, 0, {from: accounts[0]}));
+        } catch(error) {
+            assert(error.message.indexOf("revert") >= 0, "error message must contain revert 1");
+        }
+    });
+    it("Increases and decreases allowances", async () => {
+        let coinInstance = await AlexCoin.deployed();
+        let bool1 = await coinInstance.increaseAllowance.call(accounts[1], 100, {from: accounts[0]});
+        let bool2 = await coinInstance.decreaseAllowance.call(accounts[1], 0);
+        assert.equal(bool1 ,true, "it returns true 1");
+        assert.equal(bool2 ,true, "it returns true 2");
+
+        let receipt1 = await coinInstance.increaseAllowance(accounts[1], 100, {from: accounts[0]});
+        assert.equal(receipt1.logs.length, 1, "trigger one event");
+        assert.equal(receipt1.logs[0].event, "Approval", "should be the 'Approval' event");
+        assert.equal(receipt1.logs[0].args._owner, accounts[0], "logs who sent the approval");
+        assert.equal(receipt1.logs[0].args._spender, accounts[1], "logs who is approved of spending");
+        assert.equal(receipt1.logs[0].args._value.toNumber(), 100, "logs the new allowed amount");
+        
+        let receipt2 = await coinInstance.decreaseAllowance(accounts[1], 90, {from: accounts[0]});
+        assert.equal(receipt2.logs.length, 1, "trigger one event");
+        assert.equal(receipt2.logs[0].event, "Approval", "should be the 'Approval' event");
+        assert.equal(receipt2.logs[0].args._owner, accounts[0], "logs who sent the approval");
+        assert.equal(receipt2.logs[0].args._spender, accounts[1], "logs who is approved of spending");
+        assert.equal(receipt2.logs[0].args._value.toNumber(), 10, "logs the new allowed amount");
+
+        let allowance = await coinInstance.allowance(accounts[0], accounts[1]);
+        assert.equal(allowance, 10, "stores the allowance correctly");
+
+        await coinInstance.decreaseAllowance(accounts[1], 10, {from: accounts[0]});
+
+        try {
+            assert.fail(await coinInstance.increaseAllowance.call(zeroAddress, 0, {from: accounts[0]}));
+        } catch(error) {
+            assert(error.message.indexOf("revert") >= 0, "error message must contain revert 1");
+        }
+        try {
+            assert.fail(await coinInstance.decreaseAllowance.call(zeroAddress, 0, {from: accounts[0]}));
+        } catch(error) {
+            assert(error.message.indexOf("revert") >= 0, "error message must contain revert 1");
+        }
+        try {
+            assert.fail(await coinInstance.decreaseAllowance.call(accounts[1], 1000000000, {from: accounts[0]}));
+        } catch(error) {
+            assert(error.message.indexOf("revert") >= 0, "error message must contain revert 1");
+        }
     });
     it("Handles delegated transfers", async () => {
         let coinInstance = await AlexCoin.deployed();
@@ -85,11 +136,16 @@ contract("AlexCoin", (accounts) => {
         assert.equal(bool ,true, "it returns true");
 
         let receipt = await coinInstance.transferFrom(accounts[1], accounts[2], 10, {from: accounts[0]});
-        assert.equal(receipt.logs.length, 1, "trigger one event");
+        assert.equal(receipt.logs.length, 2, "trigger two events");
         assert.equal(receipt.logs[0].event, "Transfer", "should be the 'Transfer' event");
         assert.equal(receipt.logs[0].args._from, accounts[1], "logs the account the tokens are transferred frin");
         assert.equal(receipt.logs[0].args._to, accounts[2], "logs the account the tokens are transferred to");
         assert.equal(receipt.logs[0].args._value, 10, "logs the transfer amount");
+        
+        assert.equal(receipt.logs[1].event, "Approval", "should be the 'Approval' event");
+        assert.equal(receipt.logs[1].args._owner, accounts[1], "logs who sent the approval");
+        assert.equal(receipt.logs[1].args._spender, accounts[0], "logs who is approved of spending");
+        assert.equal(receipt.logs[1].args._value, 40, "logs the new allowed amount");
 
         assert.equal((await coinInstance.balanceOf(accounts[1])).toNumber(), 90 + 3, "deducts sent value from 'from-account'");
         assert.equal((await coinInstance.balanceOf(accounts[2])).toNumber(), 10, "adds sent value to 'to-account'");
@@ -109,13 +165,13 @@ contract("AlexCoin", (accounts) => {
         }
 
         try {
-            assert.fail(await coinInstance.transferFrom.call(accounts[1], "0x0000000000000000000000000000000000000000", 1));
+            assert.fail(await coinInstance.transferFrom.call(accounts[1], zeroAddress, 1));
         } catch(error) {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 3");
         }
 
         try {
-            assert.fail(await coinInstance.approve.call("0x0000000000000000000000000000000000000000", 1));
+            assert.fail(await coinInstance.approve.call(zeroAddress, 1));
         } catch(error) {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 4");
         }

@@ -1,5 +1,7 @@
 const AlexCoin = artifacts.require("AlexCoin.sol");
+const AlexCoinSale = artifacts.require("AlexCoinSale.sol");
 
-module.exports = function (deployer) {
-  deployer.deploy(AlexCoin);
+module.exports = async function (deployer) {
+  await deployer.deploy(AlexCoin);
+  await deployer.deploy(AlexCoinSale, 750000000000, AlexCoin.address);
 };
