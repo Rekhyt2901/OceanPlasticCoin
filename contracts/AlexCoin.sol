@@ -13,7 +13,7 @@ contract AlexCoin {
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
     constructor() {
-        totalSupply = 86000000000;
+        totalSupply = 100000000;
         name = "AlexCoin";
         symbol = "ALEX";
         standard = "Alex Coin v1.0";

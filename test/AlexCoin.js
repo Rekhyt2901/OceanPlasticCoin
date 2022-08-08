@@ -6,7 +6,7 @@ contract("AlexCoin", (accounts) => {
     it("Sets totalSupply, name, symbol and standard upon deployment", async () => {
         let coinInstance = await AlexCoin.deployed();
         let totalSupply = await coinInstance.totalSupply();
-        assert.equal(totalSupply.toNumber(), 86000000000, "Sets total supply to 86 Billion");
+        assert.equal(totalSupply.toNumber(), 100000000, "Sets total supply to 100 Million");
         let name = await coinInstance.name();
         assert.equal(name, "AlexCoin", "Sets name to AlexCoin");
         let symbol = await coinInstance.symbol();
@@ -48,7 +48,7 @@ contract("AlexCoin", (accounts) => {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 1");
         }
         // assert.equal(bool2, false, "False boolean is returned on unsuccessful transfer, when sender does not have enough coins");
-        // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 86000000000-3, "Coins where not Transfered if sender does not have enough 1");
+        // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 100000000-3, "Coins where not Transfered if sender does not have enough 1");
         // assert.equal((await coinInstance.balanceOf(accounts[2])).toNumber(), 0, "Coins where not Transfered if sender does not have enough 2");
         try {
             assert.fail(await coinInstance.transfer.call(zeroAddress, 1));
@@ -56,7 +56,7 @@ contract("AlexCoin", (accounts) => {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 2");
         }
         // assert.equal(bool3, false, "False boolean is returned on unsuccessful transfer, when sending to zero address");
-        // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 86000000000-3, "Coins where not Transfered if sending to zero address 1");
+        // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 100000000-3, "Coins where not Transfered if sending to zero address 1");
         // assert.equal((await coinInstance.balanceOf(zeroAddress)).toNumber(), 0, "Coins where not Transfered if sending to zero address 2");
     
         

@@ -4,9 +4,9 @@ let zeroAddress = "0x0000000000000000000000000000000000000000";
 
 contract("AlexCoinSale", (accounts) => {
     let saleInstance;
-    let tokenPrice = 750000000000;
+    let tokenPrice = 2000000000000000;
     let numberOfTokens = 100;
-    let tokensForSale = 64500000000;
+    let tokensForSale = 75000000;
     it("Initializes the contract with correct values", async () => {
         saleInstance = await AlexCoinSale.deployed();
         coinInstance = await AlexCoin.deployed();
@@ -62,7 +62,7 @@ contract("AlexCoinSale", (accounts) => {
         let saleBalance = await coinInstance.balanceOf(saleInstance.address);
         let adminBalance = await coinInstance.balanceOf(accounts[0]);
         assert.equal(saleBalance.toNumber(), 0, "Sale doesn't hold any coins anymore");
-        assert.equal(adminBalance.toNumber(), 86000000000 - numberOfTokens, "Admin received all unsold coins");
+        assert.equal(adminBalance.toNumber(), 100000000 - numberOfTokens, "Admin received all unsold coins");
         
         let open = await saleInstance.open();
         assert.equal(open, false, "Sale closed");

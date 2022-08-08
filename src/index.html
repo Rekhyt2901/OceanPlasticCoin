@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script> -->
+    <title>Alex Coin Sale</title>
+</head>
+
+<body>
+
+
+
+
+    <div class="container" style="display: flex; flex-direction: column;">
+        <div class="row">
+            <div class="col-lg-12">
+                <br>
+                <h1 class="text-center">Alex Coin Sale</h1>
+                <hr>
+                <br>
+            </div>
+        </div>
+        <div id="loader">
+            <p class="text-center">loading...</p>
+        </div>
+        <div id="content" class="text-center" style="display: none; flex-grow: 1; flex-direction: column;">
+            <p id="tokenPrice">Coin price is</p>
+            <p id="balance">Your Balance is</p>
+            <p id="alexCoinBalance">AlexCoin balance:</p>
+            <form id="form" role="form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="number" name="number" value="1" step="1" min="1" max="100000000000"  pattern="[0-9]" id="numberOfTokens" class="form-control">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary btn-large">Buy Coins</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <p id="selectedTokenPrice">Selected Coins will cost</p>
+            <br>
+            <div class="d-flex flex-column text-center" style="flex-grow: 1;">
+                <div class="progress mt-auto">
+                    <div id="progress" class="progress-bar progress-bar-striped active" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+                <br>
+                
+                <p>
+                    <span id="tokensSold">0</span> / <span id="tokensAvailable">0</span><span> coins sold</span>
+                </p>
+                <hr>        
+                <p id="account" class="">Your account</p>
+            </div>
+        </div>
+
+        <style>
+            body, html, .container {
+                height: 100%;
+            }
+        </style>
+    </div>
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="vendor/@truffle/contract/dist/truffle-contract.min.js"></script>
+    <script src="vendor/web3/dist/web3.min.js"></script>
+    <script src="./app.js"></script>
+</body>
+
+</html>

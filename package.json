@@ -1,0 +1,20 @@
+{
+  "name": "alex-coin-sale",
+  "version": "1.0.0",
+  "description": "Alex Coin Sale ICO",
+  "main": "truffle-config.js",
+  "scripts": {
+    "dev": "lite-server"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "author": "alex",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@truffle/contract": "^4.5.20",
+    "lite-server": "^2.6.1",
+    "web3": "^1.7.5"
+  }
+}
