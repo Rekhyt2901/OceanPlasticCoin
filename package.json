@@ -1,7 +1,7 @@
 {
   "name": "alex-coin-sale",
   "version": "1.0.0",
-  "description": "Alex Coin Sale ICO",
+  "description": "Coin Sale ICO",
   "main": "truffle-config.js",
   "scripts": {
     "dev": "lite-server"

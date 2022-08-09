@@ -6,13 +6,13 @@ contract("AlexCoin", (accounts) => {
     it("Sets totalSupply, name, symbol and standard upon deployment", async () => {
         let coinInstance = await AlexCoin.deployed();
         let totalSupply = await coinInstance.totalSupply();
-        assert.equal(totalSupply.toNumber(), 100000000, "Sets total supply to 100 Million");
+        assert.equal(totalSupply.toNumber(), 269000000, "Sets total supply to 269 Million");
         let name = await coinInstance.name();
-        assert.equal(name, "AlexCoin", "Sets name to AlexCoin");
+        assert.equal(name, "Ocean Plastic Coin", "Sets name to Ocean Plastic Coin");
         let symbol = await coinInstance.symbol();
-        assert.equal(symbol, "ALEX", "Sets symbol to ALEX");
+        assert.equal(symbol, "OPC", "Sets symbol to OPC");
         let standard = await coinInstance.standard();
-        assert.equal(standard, "Alex Coin v1.0", "Sets standard to Alex Coin v1.0");
+        assert.equal(standard, "Ocean Plastic Coin v1.0", "Sets standard to Ocean Plastic Coin v1.0");
     });
     it("Gives initial Coins to contract Owner", async () => {
         let coinInstance = await AlexCoin.deployed();
@@ -48,7 +48,7 @@ contract("AlexCoin", (accounts) => {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 1");
         }
         // assert.equal(bool2, false, "False boolean is returned on unsuccessful transfer, when sender does not have enough coins");
-        // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 100000000-3, "Coins where not Transfered if sender does not have enough 1");
+        // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 269000000-3, "Coins where not Transfered if sender does not have enough 1");
         // assert.equal((await coinInstance.balanceOf(accounts[2])).toNumber(), 0, "Coins where not Transfered if sender does not have enough 2");
         try {
             assert.fail(await coinInstance.transfer.call(zeroAddress, 1));
@@ -56,7 +56,7 @@ contract("AlexCoin", (accounts) => {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 2");
         }
         // assert.equal(bool3, false, "False boolean is returned on unsuccessful transfer, when sending to zero address");
-        // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 100000000-3, "Coins where not Transfered if sending to zero address 1");
+        // assert.equal((await coinInstance.balanceOf(accounts[0])).toNumber(), 269000000-3, "Coins where not Transfered if sending to zero address 1");
         // assert.equal((await coinInstance.balanceOf(zeroAddress)).toNumber(), 0, "Coins where not Transfered if sending to zero address 2");
     
         
@@ -122,7 +122,7 @@ contract("AlexCoin", (accounts) => {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 1");
         }
         try {
-            assert.fail(await coinInstance.decreaseAllowance.call(accounts[1], 1000000000, {from: accounts[0]}));
+            assert.fail(await coinInstance.decreaseAllowance.call(accounts[1], 2690000000, {from: accounts[0]}));
         } catch(error) {
             assert(error.message.indexOf("revert") >= 0, "error message must contain revert 1");
         }

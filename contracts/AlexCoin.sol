@@ -13,10 +13,10 @@ contract AlexCoin {
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
     constructor() {
-        totalSupply = 100000000;
-        name = "AlexCoin";
-        symbol = "ALEX";
-        standard = "Alex Coin v1.0";
+        totalSupply = 269000000;
+        name = "Ocean Plastic Coin";
+        symbol = "OPC";
+        standard = "Ocean Plastic Coin v1.0";
         balanceOf[msg.sender] = totalSupply;
 
     }
@@ -67,31 +67,4 @@ contract AlexCoin {
         emit Approval(msg.sender, _spender, allowance[msg.sender][_spender]);
         return true;
     }
-
-    /* 
-        NOT DONE
-    function decimals() public view returns (uint8)
-
-    function _transfer(address sender, address recipient,uint256 amount) internal returns (bool success)
-    function _mint(address account, uint256 amount) internal returns (bool success)
-    function _burn(address account, uint256 amount) internal returns (bool success)
-    function _approve(address owner, address spender, uint256 amount) internal returns (bool success)
-    function _burnFrom(address account, uint256 amount) internal returns (bool success)
-    
-
-        DONE
-    function name() public view returns (string)
-    function symbol() public view returns (string)
-    function totalSupply() public view returns (uint256)
-    function balanceOf(address _owner) public view returns (uint256 balance)
-    function transfer(address _to, uint256 _value) public returns (bool success)
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success)
-    function approve(address _spender, uint256 _value) public returns (bool success)
-    function allowance(address _owner, address _spender) public view returns (uint256 remaining)
-
-    event Transfer(address indexed _from, address indexed _to, uint256 _value)
-    event Approval(address indexed _owner, address indexed _spender, uint256 _value)
-    */
-
-
 }
