@@ -109,7 +109,7 @@ async function init() {
 
     // Handle MetaMask network change
     function handleChainChange(chainId) {
-        if (chainId == 0x1) {
+        if (chainId == 0x3) {
             document.getElementById("content").style.display = "flex";
             document.getElementById("wrongNetwork").style.display = "none";
             return;
@@ -122,7 +122,8 @@ async function init() {
     document.getElementById("content").style.display = "none";
 
     // init web3
-    let provider = Web3.givenProvier || "ws://localhost:7545";
+    // let provider = Web3.givenProvider || "ws://localhost:7545";
+    let provider = Web3.givenProvider || "wss://ropsten.infura.io/ws/v3/21a824a9fc134ba685bff1797c34d6cb";
     web3 = new Web3(provider);
 
     // init contracts
